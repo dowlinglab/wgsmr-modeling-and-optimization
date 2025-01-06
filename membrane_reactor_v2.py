@@ -54,106 +54,106 @@ def create_model(
     max_h2=True,
 ):
     """
-    Creates a cooncrete pyomo model for the water-gas shift membrane reactor
+    Creates a cooncrete pyomo model for the water-gas shift membrane reactor.
 
     Arguments
     ---------
-        temp_retentate: float, default 553
-                        temperature of membrane reactor or retentate-side in [K]
-        temp_membrane: float, default 553
-                       temperature of membrane-side in [K]
-        CO_comp_feed: float, default 0.2
-                      molar composition of CO in the feed [unitless]
-        H2O_comp_feed: float, default 0.2
-                       molar composition of water in the feed [unitless]
-        CO2_comp_feed: float, default 0.1
-                       molar composition of CO2 in the feed [unitless]
-        H2_comp_feed: float, default 0.5
-                      molar composition of H2 in the feed [unitless]
-        CH4_comp_feed: float, default 0
-                       molar composition of CH4 in the feed [unitless]
-        N2_comp_feed: float, default 0
-                      molar composition of N2 in the feed [unitless]
-        feed_flow: float, default 1.256e-3
-                   molar flow rate of feed in [mol/s]
-        feed_ghsv: float, default 2500
-                   feed GHSV [hr-1]
-        feed_pressure: float, default 1e6
-                       feed pressure in [Pa]
-        pressure_drop_retentate: float, default35000
-                                 total pressure drop on retentate-side [Pa]. We assumed 3.5% of feed pressure as default.
-        CO_comp_sweep: float, default 0
-                    molar composition of CO in the sweep [unitless]
-        H2O_comp_sweep: float, default 0
-                    molar composition of water in the sweep [unitless]
-        CO2_comp_sweep: float, default 0
-                    molar composition of CO2 in the sweep [unitless]
-        H2_comp_sweep: float, default 0
-                    molar composition of H2 in the sweep [unitless]
-        CH4_comp_sweep: float, default 0
-                    molar composition of CH4 in the sweep [unitless]
-        N2_comp_sweep: float, default 1
-                    molar composition of N2 in the sweep [unitless]
-        sweep_flow: float, default 0
-                    molar flow rate of sweep in [mol/s]
-        sweep_pressure: float, default 1e5
-                    sweep pressure in [Pa]
-        pressure_drop_permeate: float, default 0
-                    total pressure drop on permeate-side [Pa]. We assumed 3.5% of sweep pressure.
-        pre_exponent: float, default 0.0162
-                    pre-exponential factorfor hydrogen permeation in temp_reactor
-        E_R: float, default 3098
-                    activation energy of hydrogen diffusion, E over universal gas consant, R, in [K]
-        pressure_exponent: float, default 0.5
-                    partial pressure exponent
-        vol_reactor: float, default 3.927e-5
-                    volume of catalyst packing/bed in [m3]
-        area_membrane: float, default 0.0157
-                    permeation area of membrane in [m2]
-        rho_catalyst: float, default 1.38e3
-                    density of catalyst in [kg/m3]
-        num_elements: int, default 20
-                    number of finite elements [unitless]
-        T_lb: float, default 300
-                    temperature lower bound [K]
-        T_ub: float, default 800
-                    temperature upper bound [K]
-        GHSV_lb: float, default 500
-                    GHSV lower bound [hr-1]
-        GHSV_ub: float, default 4000
-                    GHSV upper bound [hr-1]
-        GHSV_sweep: float, default 0
-                    GHSV of the sweep gas [hr-1]
-        with_reaction: bool, default True, 
-                    toggle between WGS-MR (True) and membrane separator (False: without WGS reaction)
-        discretize_temperature: bool, default False
-                    if True, index reactor temperature by finite volumes along the length of the reactor
-        separate_temperatures: bool, default False
-                    if True, model reaction-side and membrane temperature separately
-        initialize_pressure_strategy: str, default "constant"
-                    "constant" or "linear", toggle to specify mode of pressure initialization
-        feed_input_mode: str, default "flowarte"
-                    "flowrate" or ["GHSV" or "ghsv"], specify if feed in flowrate or GHSV.
-        no_permeation: bool, default False
-                    toggle between WGS-MR (False) or conventional WGS (True: without membrane separation)
-        permeance_scaling: float, default 1
-                    scale permeance of membrane material
-        reaction_scaling: float, default 1
-                    scale rate of WGS reaction
-        max_h2: bool, default True
-                    if True, maximize hyrogen in permeate, otherwise constant objective (ideal for simulation mode)
+    temp_retentate: float, default 553
+        temperature of membrane reactor or retentate-side in [K]
+    temp_membrane: float, default 553
+        temperature of membrane-side in [K]
+    CO_comp_feed: float, default 0.2
+        molar composition of CO in the feed [unitless]
+    H2O_comp_feed: float, default 0.2
+        molar composition of water in the feed [unitless]
+    CO2_comp_feed: float, default 0.1
+        molar composition of CO2 in the feed [unitless]
+    H2_comp_feed: float, default 0.5
+        molar composition of H2 in the feed [unitless]
+    CH4_comp_feed: float, default 0
+        molar composition of CH4 in the feed [unitless]
+    N2_comp_feed: float, default 0
+        molar composition of N2 in the feed [unitless]
+    feed_flow: float, default 1.256e-3
+        molar flow rate of feed in [mol/s]
+    feed_ghsv: float, default 2500
+        feed GHSV [hr-1]
+    feed_pressure: float, default 1e6
+        feed pressure in [Pa]
+    pressure_drop_retentate: float, default35000
+        total pressure drop on retentate-side [Pa]. We assumed 3.5% of feed pressure as default.
+    CO_comp_sweep: float, default 0
+        molar composition of CO in the sweep [unitless]
+    H2O_comp_sweep: float, default 0
+        molar composition of water in the sweep [unitless]
+    CO2_comp_sweep: float, default 0
+        molar composition of CO2 in the sweep [unitless]
+    H2_comp_sweep: float, default 0
+        molar composition of H2 in the sweep [unitless]
+    CH4_comp_sweep: float, default 0
+        molar composition of CH4 in the sweep [unitless]
+    N2_comp_sweep: float, default 1
+        molar composition of N2 in the sweep [unitless]
+    sweep_flow: float, default 0
+        molar flow rate of sweep in [mol/s]
+    sweep_pressure: float, default 1e5
+        sweep pressure in [Pa]
+    pressure_drop_permeate: float, default 0
+        total pressure drop on permeate-side [Pa]. We assumed 3.5% of sweep pressure.
+    pre_exponent: float, default 0.0162
+        pre-exponential factorfor hydrogen permeation in temp_reactor
+    E_R: float, default 3098
+        activation energy of hydrogen diffusion, E over universal gas consant, R, in [K]
+    pressure_exponent: float, default 0.5
+        partial pressure exponent
+    vol_reactor: float, default 3.927e-5
+        volume of catalyst packing/bed in [m3]
+    area_membrane: float, default 0.0157
+        permeation area of membrane in [m2]
+    rho_catalyst: float, default 1.38e3
+        density of catalyst in [kg/m3]
+    num_elements: int, default 20
+        number of finite elements [unitless]
+    T_lb: float, default 300
+        temperature lower bound [K]
+    T_ub: float, default 800
+        temperature upper bound [K]
+    GHSV_lb: float, default 500
+        GHSV lower bound [hr-1]
+    GHSV_ub: float, default 4000
+        GHSV upper bound [hr-1]
+    GHSV_sweep: float, default 0
+        GHSV of the sweep gas [hr-1]
+    with_reaction: bool, default True, 
+        toggle between WGS-MR (True) and membrane separator (False: without WGS reaction)
+    discretize_temperature: bool, default False
+        if True, index reactor temperature by finite volumes along the length of the reactor
+    separate_temperatures: bool, default False
+        if True, model reaction-side and membrane temperature separately
+    initialize_pressure_strategy: str, default "constant"
+        "constant" or "linear", toggle to specify mode of pressure initialization
+    feed_input_mode: str, default "flowarte"
+        "flowrate" or ["GHSV" or "ghsv"], specify if feed in flowrate or GHSV.
+    no_permeation: bool, default False
+        toggle between WGS-MR (False) or conventional WGS (True: without membrane separation)
+    permeance_scaling: float, default 1
+        scale permeance of membrane material
+    reaction_scaling: float, default 1
+        scale rate of WGS reaction
+    max_h2: bool, default True
+        if True, maximize hyrogen in permeate, otherwise constant objective (ideal for simulation mode)
 
 
     Returns
     -------
-        m: concreete pyomo model
+    m: concreete pyomo model
         
     Raises
     -----
-        ValueError
-            if feed composition does not sum to 1, OR
-            sweep composition does not sum to 1, OR
-            `feed_input_mode` is none of "flowrate", "GHSV", OR "ghsv"]
+    ValueError
+        if feed composition does not sum to 1, OR
+        sweep composition does not sum to 1, OR
+        `feed_input_mode` is none of "flowrate", "GHSV", OR "ghsv"]
     """
     #################################################################
                   # MODEL SET-UP AND PRELIMINARY DATA
@@ -428,6 +428,7 @@ def create_model(
 
     # retentate-side pressure drop constraint
     def RetentatePressureDropRule(m, j):
+        '''Add retentate-side pressure drop expression.'''
         if j == m.ELEMENTS.first():
             return (
                 m.pressure_retentate[j] == m.pressure_feed
@@ -443,6 +444,7 @@ def create_model(
 
     # permeate-side pressure drop constraint
     def PermeatePressureDropRule(m, j):
+        '''Add permeate-side pressure drop expression.'''
         if j == m.ELEMENTS.last():
             return (
                 m.pressure_permeate[j] == m.pressure_sweep
@@ -458,6 +460,7 @@ def create_model(
 
     # flux expression: 
     def MembraneFluxRule(m, j, i):
+        '''Add flux expression.'''
         if no_permeation:
             return 0
         else:
@@ -502,6 +505,7 @@ def create_model(
 
     # reaction rate constraint
     def ReactionRateRule(m, j):
+        '''Add reaction rate expression.'''
         if not with_reaction:
             return m.reaction_rate[j] == 0
         elif discretize_temperature:
@@ -567,6 +571,7 @@ def create_model(
     
     # add expression for total feed flow - serves as F0 in nondimensionalized model
     def TotalFeedRule(m):
+        '''Calculate the total feed flowrate.'''
         if feed_input_mode == "flowrate":
             return sum(m.flow_feed[i] for i in m.COMPONENTS)
         else:
@@ -575,6 +580,7 @@ def create_model(
     
     # expression for feed factor based on feed input mode specified
     def FeedFactorRule(m):
+        '''Sepcify factor for converting from dimensionless flowrate to mol/s.'''
         if feed_input_mode == "flowrate":
             return 1/m.total_feed
         elif feed_input_mode == "GHSV" or feed_input_mode == "ghsv":
@@ -585,6 +591,7 @@ def create_model(
 
     # retentate-side material balance    
     def RetentateMaterialRule(m, j, i):
+        '''Add expression for material balances on the retentate-side.'''
         if feed_input_mode == "flowrate":
             if j == m.ELEMENTS.first():
                 element_feed = m.y_feed[i] # feed composition (dimensionless)
@@ -611,6 +618,7 @@ def create_model(
     
     # permeate side material balance
     def PermeateMaterialBalanceRule(m, j, i):
+        '''Add expression for material balances on the permeate-side'''
         if feed_input_mode == "flowrate":
             if j == m.ELEMENTS.last():
                 element_feed = m.flow_sweep[i]/m.total_feed
@@ -634,6 +642,7 @@ def create_model(
     
     # retentate-side molar composition constraint
     def RetentateCompositionRule(m, j, i):
+        '''Add expression for retentate-side molar composition'''
         return (
             m.composition_retentate[j, i]
             * sum(m.flow_retentate[j, i] for i in m.COMPONENTS)
@@ -646,6 +655,7 @@ def create_model(
 
     # permeate-side molar composition constraint
     def PermeateCompositionRule(m, j, i):
+        '''Add expression for permeate-side molar composition'''
         return (
             m.composition_permeate[j, i]
             * sum(m.flow_permeate[j, i] for i in m.COMPONENTS)
@@ -661,6 +671,7 @@ def create_model(
     ###########################################################
 
     def ObjectiveRule(m):
+        '''Add objective for optimization problem'''
         if max_h2:
             return m.flow_permeate[m.ELEMENTS.first(), "H2"]
         else:
@@ -677,16 +688,19 @@ def create_model(
 # Pa to psig
 def _pascal_to_psig(pressure):
     '''
-    Function to convert pressure from units of pascal (Pa) to Pound-force per square inch - gauge (psig)
+    Function to convert pressure from units of pascal (Pa) to Pound-force per square inch - gauge (psig).
 
-    args:
-        pressure: float, pressure in Pa
+    Argument
+    --------
+    pressure: float, pressure in Pa
 
-    returns:
-        P_psig: float, pressure in psig
+    Returns
+    -------
+    P_psig: float, pressure in psig
 
-    other:
-        This function assumes that the pressure is given in Pascals AND is an absolute pressure
+    Note
+    ----
+    This function assumes that the pressure is given in Pascals AND is an absolute pressure
     
     '''
     # define unit registryureg = UnitRegistry()
@@ -712,13 +726,15 @@ def _pascal_to_psig(pressure):
 # psig to pascal
 def _psig_to_pascal(P):
     '''
-    function to convert pressure units from psig to pascal
+    Function to convert pressure units from psig to pascal.
     
-    Arguments:
-        P:float, pressure in psig
+    Argument
+    --------
+    P:float, pressure in psig
         
-    Returns:
-        P_pascal: float, pressure in pascals
+    Returns
+    -------
+    P_pascal: float, pressure in pascals
     '''
     # define unit registryureg = UnitRegistry()
     ureg = UnitRegistry()
@@ -744,13 +760,12 @@ def _psig_to_pascal(P):
 
 def toggle_reaction_off(m):
     """
-    Function to deactiavte reaction from the membrane reactor model
+    Function to deactiavte reaction from the membrane reactor model.
 
-    Argument:
-        m: concrete pyomo model of membrane reactor
+    Argument
+    --------
+    m: concrete pyomo model of membrane reactor
 
-    return:
-        nill
     """
     # deactivate reaction rate constraint in model
     m.reaction_rate_constraint.deactivate()
@@ -764,11 +779,10 @@ def toggle_reaction_on(m):
     """
     Function to activate reaction in membrane reactor model
 
-    Argument:
-        m: concrete pyomo model
+    Argument
+    --------
+    m: concrete pyomo model
 
-    return:
-        nill
     """
     # unfix reaction rate
     m.reaction_rate.unfix()
@@ -780,18 +794,17 @@ def toggle_reaction_on(m):
 # initialize reaction rate
 def init_reaction_rate(m=None, ref_model=None):
     """
-    Function to initialize reaction_rate variable using output from previous solve
+    Function to initialize reaction_rate variable using output from previous solve.
 
-    Argument:
-        m: concrete Pyomo model
-        ref_model: solved pyomo model used as base for initialization of model m. If not provided, m is initialized using temperature
-                    and composition values from itself
-
-    Return:
-        nill
+    Arguments
+    ---------
+    m: concrete Pyomo model
+    ref_model: solved pyomo model used as base for initialization of model m. If not provided, m is initialized using temperature
+        and composition values from itself
         
-    Other:
-        This function is only useful when there is a solved results for the model to use as initialization point
+    Note
+    ----
+    This function is only useful when there is a solved results for the model to use as initialization point
 
     """
     # check reference model
@@ -876,16 +889,18 @@ def init_reaction_rate(m=None, ref_model=None):
 #################################################################################
 def fix_temperature(m, temp=None, temp_list=[], LOUD=False):
     """
-    Function to fix membrane temperature
+    Function to fix membrane temperature.
     
-    Args:
-        m: concrete Pyomo model, WGS-MR
-        temp: float, temperature in Kelvin
-        temp_list: list of temperature values, same size as # of elements in model (m)
-        LOUD: bool, if true print
+    Arguments
+    ---------
+    m: concrete Pyomo model, WGS-MR
+    temp: float, temperature in Kelvin
+    temp_list: list of temperature values, same size as # of elements in model (m)
+    LOUD: bool, if true print
         
-    Other:
-        provide either temp or temp_list, but NOT both
+    Note
+    ----
+    Provide either temp or temp_list, NOT both
     """
     # check input
     if temp:
@@ -906,10 +921,12 @@ def fix_temperature(m, temp=None, temp_list=[], LOUD=False):
     
 #################################################################################
 def unfix_temperature(m):
-    """ function to unfix temperature in the WGS-MR model
+    """
+    Function to unfix temperature in the WGS-MR model.
     
-    Args:
-        m: concrete Pyomo model of the WGS-MR
+    Argument
+    --------
+    m: concrete Pyomo model of the WGS-MR
     """
     for e in m.ELEMENTS:
         m.temp_retentate[e].unfix()
@@ -918,14 +935,14 @@ def unfix_temperature(m):
 
 def check_finite_element_mass_balance(m,side,print_level=1):
     """
-    Check mass balances
+    Check mass balances.
     
-    Args:
-        m: concrete Pyomo model, (solved) WGS-MR model
-        side: string, either 'perm' or 'ret'
-        print_level: int, <2 to print basic, .>=2 to print detailed
+    Arguments
+    ---------
+    m: concrete Pyomo model, (solved) WGS-MR model
+    side: str, either 'perm' or 'ret'
+    print_level: int, <2 to print basic, >=2 to print detailed
         
-    
     """
     # specify factor to convert model output flow rates from nondimensional to dimensional
     # empty dictionaries to hold component flow rates
@@ -1023,7 +1040,7 @@ def check_finite_element_mass_balance(m,side,print_level=1):
 #################################################################################
 
 def CO_conversion(m):
-    ''' calculate CO conversion in a WGS-MR model, m'''
+    '''Calculate CO conversion in a WGS-MR model, m.'''
     if 'ghsv' in m.component_map(pyo.Var):
         P = 101325 # stanadard pressure (Pa)
         V = m.volume()*m.N # entire reactor volume
@@ -1039,8 +1056,8 @@ def CO_conversion(m):
 ################################################################################
 
 def H2_recovery(m):
-    '''calculate the H2 recovery in a WGS-MR model, m
-       H2 recovery = H2 in permeate / (H2 in permeate + H2 in retentate)
+    '''calculate the H2 recovery in a WGS-MR model, m.
+       NB: H2 recovery = H2 in permeate / (H2 in permeate + H2 in retentate).
     '''
     return pyo.value(m.flow_permeate[m.ELEMENTS.first(),'H2'])/(pyo.value(m.flow_retentate[m.ELEMENTS.last(),'H2']) 
                                                                 + pyo.value(m.flow_permeate[m.ELEMENTS.first(),'H2'])) * 100
@@ -1048,8 +1065,8 @@ def H2_recovery(m):
 ################################################################################
 
 def feed_utilization_efficiency(m):
-    '''calculate the feed utilization efficiency for a WGS-MR model, m
-       feed utilization efficiency (%) = 100* H2 in permeate / (H2 in feed + CO in feed + 4*CH4 in feed)
+    '''Calculate the feed utilization efficiency for a WGS-MR model, m.
+       NB: feed utilization efficiency (%) = 100* H2 in permeate / (H2 in feed + CO in feed + 4*CH4 in feed).
     '''
     # get the total feed flow rate (mol/s)
     if 'ghsv' in m.component_map(pyo.Var):
@@ -1073,16 +1090,14 @@ def feed_utilization_efficiency(m):
 
 def conc_profile_multiple(m, sweep=False, methane=True, save_plot=False):
     """
-    function to plot concentration profile of gas species along the length of the membrane module.
+    Function to plot concentration profile of gas species along the length of the membrane module.
 
-    args:
-        m: concrete model
-        sweep: Boolean; If true, there is sweep, so plot concentration of hydrogen in the permeate
-        methane: Bool, if True add concentration profile for methane
-        save_plot: Boolean; if True, save plot, if False, pass
-        
-    return:
-        nill
+    Arguments
+    ---------
+    m: concrete model
+    sweep: bool; If true, there is sweep, so plot concentration of hydrogen in the permeate
+    methane: bool, if True add concentration profile for methane
+    save_plot: bool; if True, save plot, if False, pass
 
     """
         
@@ -1161,21 +1176,32 @@ def pressure_sensitivity(data,
 ):
     """
     Function to run sensitivity simulations with lists of pressure and temperature
-    and save corresponding CO conversion data to a .csv file
+    and save corresponding CO conversion data to a .csv file.
 
-    arguments:
-        data: dict, contains input data for model based on study case
-        pressure_list: list, contain pressures for simulation
-        temp_list: list, contain emperatures for simulation
-        equilibrium_conversion: float, equilibrium conversion of CO in the WGS reaction in %
-        PFR_conversion: float, CO conversion for plug flow reactor (PFR) in %
-        with_reaction: boolean, toggle between WGS-MR and separation-only membrane (no reaction)
-        industry_units: boolean, set True to use industry units (degrees celcius, psig) instead of SI units
-        save_data: Boolean, decides whether to save data or not
-        verbose: bool, set 'True' to print sweep details, False, otherwise
+    Arguments
+    ---------
+    data: dict, 
+        contains input data for model based on study case
+    pressure_list: list, default np.arange(3500,400,-100)
+        contain pressures for simulation
+    temp_list: list, default [625, 675, 725, 775, 825]
+        contain emperatures for simulation
+    equilibrium_conversion: float, 
+        equilibrium conversion of CO in the WGS reaction in %
+    PFR_conversion: float, 
+        CO conversion for plug flow reactor (PFR) in %
+    with_reaction: bool, default False
+        toggle between WGS-MR and separation-only membrane (no reaction)
+    industry_units: bool, default False
+        if True, use industry units (degrees celcius, psig) instead of SI units
+    save_data: bool, default False
+        if True, save data to .csv
+    verbose: bool, default False
+        if True, print sweep details
 
-    returns:
-        conversion_pd: Pandas dataframe, contains CO conversions for various combinations of temperature and pressure
+    Returns
+    -------
+    conversion_pd: Pandas dataframe, contains CO conversions for various combinations of temperature and pressure
 
     """
     # Unit conversions
@@ -1357,26 +1383,38 @@ def _hydrogen_per_feed(create_model=create_model,
                       dimensionless=True,
                       LOUD=False):
     '''
-    function to create run WGS-MR simulation and estimate H2 production per unit feed (kgH2/kgfeed)
+    Function to create run WGS-MR simulation and estimate H2 production per unit feed (kgH2/kgfeed).
     
-    arguments:
-        create_model: callable function, function to create an instance of a concrete Pyomo model of the WGS-MR
-        T: float/Int, tempersture, in K
-        GHSV: float/Int, gas hourly space veolcity, in hr-1
-        vol_reactor: float/Int, reactor volume, in m3
-        feed_composition: dictionary, composition of feed gas, mole composition or volume composition (assume ideal gas)
-                        in mole fraction
-        molar_masses: dictionary, molar masses of gas components, in g/mol
-        data_source: str, choose data set for simulation, options are 'pci' and 'public'
-        dimensionless: bool, true to scale flow rate and membrane length
-        LOUD:bool, True to print
+    Arguments
+    ---------
+    create_model: callable function, 
+        function to create an instance of a concrete Pyomo model of the WGS-MR
+    T: float, default 723.15
+        tempersture, in K
+    GHSV: float, default 3000
+        gas hourly space veolcity, in hr-1
+    vol_reactor: float, default 3.93e-5
+        reactor volume, in m3
+    feed_composition: dict, default {'CO':0.1,'H2O':0.28,'CO2':0.21,'H2':0.35,'CH4':0.06,'N2':0}
+        composition of feed gas, mole composition or volume composition (assume ideal gas)
+        in mole fraction
+    molar_masses: dict, default {'CO':28.01,'H2O':18.015,'CO2':44.01,'H2':2.016,'CH4':16.04,'N2':28.014}
+        molar masses of gas components, in g/mol
+    data_source: str, default 'public'
+        specify dataset to use, options are 'pci' and 'public'
+    dimensionless: bool, default True
+        if True scale flow rate and membrane length
+    LOUD: bool, default False
+        if True, print to progress
         
         
-    return:
-        H2_per_feed: H2 produced per unit feed, in kgH2/kgfeed
+    Returns
+    -------
+    H2_per_feed: H2 produced per unit feed, in kgH2/kgfeed
         
-    other:
-        This function is intended for use by other functions, but not for an end-user
+    Note
+    ----
+    This function is intended for use by other functions, but not for an end-user
     '''
     # print input
     if LOUD:
@@ -1477,18 +1515,26 @@ def sweepflow_sensitivity(data,
                             save_data=False):
     '''
     Function to run WGS-MR simulations for various sweep rates at 
-    given temperatures and pressures, and return the corresponding CO conversion data
+    given temperatures and pressures, and return the corresponding CO conversion data.
     
-    arguments:
-        data: dict, model input data
-        sweep_list: list, contains sweep flow rates 
-        temp_list: list, contains temperature values
-        feed_pressure: float, feed pressure in psig
-        LOUD: bool, turn on to print progress during iterations
-        save_data: boolean, set "True" to save data to csv file
+    Arguments
+    ---------
+    data: dict, 
+        model input data
+    sweep_list: list, default np.linspace(0,1,4)
+        contains sweep flow rates 
+    temp_list: list, default [624,674,724]
+        contains temperature values
+    feed_pressure: float, default 200
+        feed pressure in psig
+    LOUD: bool, default False
+        if True, print progress during iterations
+    save_data: bool, default False
+        if True, save data to .csv 
         
-    return:
-        conversion_pd: pandas dataFrame
+    Returns
+    -------
+    conversion_pd: pandas dataFrame
         
     '''
     # Unit conversions
@@ -1633,30 +1679,48 @@ def sweepflow_sensitivity(data,
 
 def plot_pd(file_path=None, data=None, column=None, y_label=None, x_label=None, y_lim=[], txt=None, txt_loc=None, line_styles = ["rx-","k*-","b+-","mv-","go-","yp-"], legend_loc=(0.5, 1), show_legend=True, legend_col=3, y_ticks=None, x_ticks=None, save_fig=False):
     '''
-    Function to plot pandas dataframe
+    Function to plot pandas dataframe.
     
-    arguments:
-        file_path: str, path to csv file containing data
-        data: Pandas dataftrame, conversion vs sweep data to be plotted
-        column: str, specify column of data to plot (for y-axis), x-axis data is default (first column in dataframe)
-        y_label: str [optional], label for y-axis
-        x_label: str, [optional] specify label for x-axis
-        y_lim: list [optional], limits for y-axis
-        txt: str, text to print inside plot, e.g key simulatin paraters
-        txt_loc: list, specify [x,y] location to begin text,
-        show_legend: bool, if True show legend
-        line_styles: list, list of line styles
-        legend_loc: list, coordinates for legend location, specify as fraction
-        legend_col: int, number of columns for legend
-        y_ticks: list, specify yticks
-        x_ticks: list, specify xticks
-        save_fig: boolean, "True" to save figure
+    Arguments
+    ---------
+    file_path: str, 
+        path to csv file containing data
+    data: Pandas dataftrame, 
+        conversion vs sweep data to be plotted
+    column: str, 
+        specify column of data to plot (for y-axis), x-axis data is default (first column in dataframe)
+    y_label: str, optional
+        label for y-axis
+    x_label: str, optional 
+        specify label for x-axis
+    y_lim: list, optional 
+        limits for y-axis
+    txt: str, 
+        text to print inside plot, e.g key simulatin paraters
+    txt_loc: list, 
+        specify [x,y] location to begin text,
+    show_legend: bool, default True
+        if True show legend
+    line_styles: list, default ["rx-","k*-","b+-","mv-","go-","yp-"]
+        list of line styles
+    legend_loc: tuple, default (0.5, 1),
+        coordinates for legend location, specify as fraction
+    legend_col: int, default 3
+        number of columns for legend
+    y_ticks: list, 
+        specify yticks
+    x_ticks: list, 
+        specify xticks
+    save_fig: bool, default False
+        if True, save figure
     
-    returns:
-        fig: plot object
+    Returns
+    -------
+    fig: plot object
         
-    Others:
-        This function assumes that the first column in the pandas dataframe provided contains x values
+    Notes
+    -----
+    This function assumes that the first column in the pandas dataframe provided contains x values
         
     '''
     # load data
@@ -1726,15 +1790,20 @@ def plot_pd(file_path=None, data=None, column=None, y_label=None, x_label=None, 
     
 def print_streams(m,stream='retentate',save_data=False):
     '''
-    Function to print and save retentate stream flow rate and compoitions
+    Function to print and save retentate stream flow rate and compoitions.
     
-    args:
-        m: concrete pyomo model of the WGS-MR
-        stream: str, choose between retentate and permeate streams
-        save_data: boolean, "True" to save data
+    Arguments
+    ---------
+    m: concrete model
+        pyomo model of the WGS-MR
+    stream: str, default "retentate"
+        choose between retentate ("retentate") and permeate ("permeate") streams
+    save_data: bool, default False
+        if True, save data
     
-    returns:
-        stream_flow_pd:pd dataframe
+    Returns
+    -------
+    stream_flow_pd:pd dataframe
     
     '''
     # get stream flows for retentate side
