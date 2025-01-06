@@ -56,53 +56,104 @@ def create_model(
     """
     Creates a cooncrete pyomo model for the water-gas shift membrane reactor
 
-    Arguments:
-        temp_reactor: float, temperature of membrane reactor in [K]
-        CO_comp_feed: float, molar composition of CO in the feed [unitless]
-        H2O_comp_feed: float, molar composition of water in the feed [unitless]
-        CO2_comp_feed: float, molar composition of CO2 in the feed [unitless]
-        H2_comp_feed: float, molar composition of H2 in the feed [unitless]
-        CH4_comp_feed: float, molar composition of CH4 in the feed [unitless]
-        N2_comp_feed: float, molar composition of N2 in the feed [unitless]
-        feed_flow: float, molar flow rate of feed in [mol/s]
-        feed_ghsv: feed GHSV [hr-1]
-        feed_pressure: float, feed pressure in [Pa]
-        pressure_drop_retentate: float, total pressure drop on retentate-side [Pa]. We assumed 3.5% of feed pressure as default.
-        CO_comp_sweep: float, molar composition of CO in the sweep [unitless]
-        H2O_comp_sweep: float, molar composition of water in the sweep [unitless]
-        CO2_comp_sweep: float, molar composition of CO2 in the sweep [unitless]
-        H2_comp_sweep: float, molar composition of H2 in the sweep [unitless]
-        CH4_comp_sweep: float, molar composition of CH4 in the sweep [unitless]
-        N2_comp_sweep: float, molar composition of N2 in the sweep [unitless]
-        sweep_flow: float, molar flow rate of sweep in [mol/s]
-        sweep_pressure: float, sweep pressure in [Pa]
-        pressure_drop_permeate: float, total pressure drop on permeate-side [Pa]. We assumed 3.5% of sweep pressure.
-        pre_exponent: float, pre-exponential factorfor hydrogen permeation in temp_reactor
-        E_R: float, Activation energy of hydrogen diffusion, E over universal gas consant, R, in [K]
-        pressure_exponent: float, partial pressure exponent
-        vol_reactor: float, volume of catalyst packing/bed in [m3]
-        area_membrane: float, effective/permeation area of membrane in [m2]
-        rho_catalyst: float, density of catalyst in [kg/m3]
-        num_elements: int, number of finite elements [unitless]
-        T_lb: float, temperature lower bound [K]
-        T_ub: float, temperature upper bound [K]
-        GHSV_lb: float, GHSV lower bound [hr-1]
-        GHSV_ub: float, GHSV upper bound [hr-1]
-        GHSV_sweep: float, GHSV of the sweep gas [hr-1]
-        with_reaction: toggle between WGS-MR and membrane separator (without WGS reaction)
-        discretize_temperature: bool, True to index reactor temperature by finite volumes along the length of the reactor
-        separate_temperatures: bool, if True, model reaction-side and membrane temperature separately
-        initialize_pressure_strategy: str, "constant" or "linear", toggle to specify mode of pressure initialization
-        feed_input_mode: str, "flowrate" or ["GHSV" or "ghsv"], specify if feed in flowrate or GHSV.
-        no_permeation: boolean, used to activate conventional equilibrium reaction without permeation
-        permeance_scaling: float, scale permeance of membrane material
-        reaction_scaling: float, scale rate of WGS reaction
-        max_h2: bool, maximize hyrogen in permeate, otherwise constant objective (simulation mode)
+    Arguments
+    ---------
+        temp_retentate: float, default 553
+                        temperature of membrane reactor or retentate-side in [K]
+        temp_membrane: float, default 553
+                       temperature of membrane-side in [K]
+        CO_comp_feed: float, default 0.2
+                      molar composition of CO in the feed [unitless]
+        H2O_comp_feed: float, default 0.2
+                       molar composition of water in the feed [unitless]
+        CO2_comp_feed: float, default 0.1
+                       molar composition of CO2 in the feed [unitless]
+        H2_comp_feed: float, default 0.5
+                      molar composition of H2 in the feed [unitless]
+        CH4_comp_feed: float, default 0
+                       molar composition of CH4 in the feed [unitless]
+        N2_comp_feed: float, default 0
+                      molar composition of N2 in the feed [unitless]
+        feed_flow: float, default 1.256e-3
+                   molar flow rate of feed in [mol/s]
+        feed_ghsv: float, default 2500
+                   feed GHSV [hr-1]
+        feed_pressure: float, default 1e6
+                       feed pressure in [Pa]
+        pressure_drop_retentate: float, default35000
+                                 total pressure drop on retentate-side [Pa]. We assumed 3.5% of feed pressure as default.
+        CO_comp_sweep: float, default 0
+                    molar composition of CO in the sweep [unitless]
+        H2O_comp_sweep: float, default 0
+                    molar composition of water in the sweep [unitless]
+        CO2_comp_sweep: float, default 0
+                    molar composition of CO2 in the sweep [unitless]
+        H2_comp_sweep: float, default 0
+                    molar composition of H2 in the sweep [unitless]
+        CH4_comp_sweep: float, default 0
+                    molar composition of CH4 in the sweep [unitless]
+        N2_comp_sweep: float, default 1
+                    molar composition of N2 in the sweep [unitless]
+        sweep_flow: float, default 0
+                    molar flow rate of sweep in [mol/s]
+        sweep_pressure: float, default 1e5
+                    sweep pressure in [Pa]
+        pressure_drop_permeate: float, default 0
+                    total pressure drop on permeate-side [Pa]. We assumed 3.5% of sweep pressure.
+        pre_exponent: float, default 0.0162
+                    pre-exponential factorfor hydrogen permeation in temp_reactor
+        E_R: float, default 3098
+                    activation energy of hydrogen diffusion, E over universal gas consant, R, in [K]
+        pressure_exponent: float, default 0.5
+                    partial pressure exponent
+        vol_reactor: float, default 3.927e-5
+                    volume of catalyst packing/bed in [m3]
+        area_membrane: float, default 0.0157
+                    permeation area of membrane in [m2]
+        rho_catalyst: float, default 1.38e3
+                    density of catalyst in [kg/m3]
+        num_elements: int, default 20
+                    number of finite elements [unitless]
+        T_lb: float, default 300
+                    temperature lower bound [K]
+        T_ub: float, default 800
+                    temperature upper bound [K]
+        GHSV_lb: float, default 500
+                    GHSV lower bound [hr-1]
+        GHSV_ub: float, default 4000
+                    GHSV upper bound [hr-1]
+        GHSV_sweep: float, default 0
+                    GHSV of the sweep gas [hr-1]
+        with_reaction: bool, default True, 
+                    toggle between WGS-MR (True) and membrane separator (False: without WGS reaction)
+        discretize_temperature: bool, default False
+                    if True, index reactor temperature by finite volumes along the length of the reactor
+        separate_temperatures: bool, default False
+                    if True, model reaction-side and membrane temperature separately
+        initialize_pressure_strategy: str, default "constant"
+                    "constant" or "linear", toggle to specify mode of pressure initialization
+        feed_input_mode: str, default "flowarte"
+                    "flowrate" or ["GHSV" or "ghsv"], specify if feed in flowrate or GHSV.
+        no_permeation: bool, default False
+                    toggle between WGS-MR (False) or conventional WGS (True: without membrane separation)
+        permeance_scaling: float, default 1
+                    scale permeance of membrane material
+        reaction_scaling: float, default 1
+                    scale rate of WGS reaction
+        max_h2: bool, default True
+                    if True, maximize hyrogen in permeate, otherwise constant objective (ideal for simulation mode)
 
 
-    Returns:
+    Returns
+    -------
         m: concreete pyomo model
         
+    Raises
+    -----
+        ValueError
+            if feed composition does not sum to 1, OR
+            sweep composition does not sum to 1, OR
+            `feed_input_mode` is none of "flowrate", "GHSV", OR "ghsv"]
     """
     #################################################################
                   # MODEL SET-UP AND PRELIMINARY DATA
